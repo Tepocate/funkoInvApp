@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import math
+import glob
 
 class web_scrape:
     def __init__(self,website_name,url):
@@ -76,14 +77,13 @@ class web_scrape:
         master_df = master_df.set_index('Names')
         master_df.to_excel("../output/{}output.xlsx".format(self.website_name))
 
-#current issue cannot append correctly
-import glob
+# This works for now I want to see if I can integrate it somewhere in scraping_website()
 def combine_doc():
     filename = glob.glob('../output/*.xlsx')
+    master_df = pd.DataFrame()
 
     for file in filename:
-        master_df = pd.read_excel(file)
-        prev_df = master_df
+        prev_df = pd.read_excel(file)
         master_df = master_df.append(prev_df, ignore_index=True)
 
     master_df = master_df.set_index('Names')
