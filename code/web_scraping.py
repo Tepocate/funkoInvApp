@@ -55,7 +55,7 @@ class web_scrape:
         master_df = master_df.append(temp_df, ignore_index=True)
         return master_df
 
-    def scraping_website(self):
+    def scraping_HTBL(self):
         size = '120'
         start = '0'
 
@@ -76,6 +76,12 @@ class web_scrape:
 
         master_df = master_df.set_index('Names')
         master_df.to_excel("../output/{}output.xlsx".format(self.website_name))
+    # workin on scrpaing Target
+    def scraping_Target(self):
+        soup = self.get_soup(self.url)
+        res = soup.find('span', {"class" : "h-text-grayDarkest"})
+        val = res.string.strip().split(' ')
+
 
 # This works for now I want to see if I can integrate it somewhere in scraping_website()
 def combine_doc():
@@ -93,13 +99,17 @@ def combine_doc():
 if __name__ == '__main__':
     HotTopic = web_scrape('HotTopic','https://www.hottopic.com/funko/')
     BoxLunch = web_scrape('BoxLunch','https://www.boxlunch.com/funko/')
-    HotTopic.scraping_website()
-    BoxLunch.scraping_website()
+    HotTopic.scraping_HTBL()
+    BoxLunch.scraping_HTBL()
     combine_doc()
 
-
+# Target funko site: https://www.target.com/b/funko/-/N-4ynjc?Nao=0
+# Walmart funko site: https://www.walmart.com/search/?query=funko or https://www.walmart.com/browse/toys/funko-collectibles/4171_2229239_8665809_2752400
+# FYI funko site: https://www.fye.com/toys-collectibles/action-figures/funko/
+# Funko shop site: https://shop.funko.com/collections/all-products
+# Amazon funko site: https://www.amazon.com/stores/page/D6A2681A-2EB0-4335-8884-2E8DDB169640?ingress=0&visitId=35a20bef-dde8-421a-bc19-57af243dd21e&productGridPageIndex=7
 
 # TODO: Figure out how to create this into an app. Beeware or kivy of restful API with Flask 
 # https://realpython.com/mobile-app-kivy-python/
-# Need to do webscarping on the following sites: BoxLunch, Target, Amazon, Walmart, FYI, Funko shop
+# Need to do webscarping on the following sites: Target, Amazon, Walmart, FYI, Funko shop
 # Once I have a websire scraped i can look for comaprisions to update the list
